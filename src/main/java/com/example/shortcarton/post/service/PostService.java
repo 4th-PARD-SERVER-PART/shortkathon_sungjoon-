@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    private final String uploadDir = "C:/uploads/";  // 파일 업로드 디렉토리 설정
+    private final String uploadDir = System.getProperty("user.dir") + "/uploads/";  // 현재 작업 디렉토리를 기준으로 설정
 
     public void createPost(String title, MultipartFile file) throws IOException {
         String audioFilePath = null;
@@ -28,12 +29,13 @@ public class PostService {
         if (file != null && !file.isEmpty()) {
             String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
             Path filePath = Paths.get(uploadDir + fileName);
-            Files.createDirectories(filePath.getParent());
+            Files.createDirectories(filePath.getParent());  // 부모 디렉토리가 없으면 생성
+
             try {
-                file.transferTo(filePath.toFile());
-                audioFilePath = "/uploads/" + fileName;
+                file.transferTo(filePath.toFile());  // 파일을 지정된 경로에 저장
+                audioFilePath = "/uploads/" + fileName;  // 웹에서 접근 가능한 경로로 설정
             } catch (IOException e) {
-                throw new IOException("File upload failed", e); // 파일 업로드 실패 시 예외 처리
+                throw new IOException("File upload failed", e);  // 파일 업로드 실패 시 예외 처리
             }
         }
 
@@ -41,8 +43,6 @@ public class PostService {
         Post post = Post.toEntity(title, audioFilePath, null);  // user 없이 생성
         postRepository.save(post);
     }
-
-
 
     // 게시물 상세 조회 (userId 없이)
     public PostDto.createRes detailPost(Long postId) {
