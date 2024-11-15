@@ -42,7 +42,6 @@ public class PostDto {
         @Schema(description = "게시물 내용", example = "This is the post text.")
         private String text;
 
-        // 게시물 목록 반환을 위한 메서드
         public static List<createRes> postList(List<Post> posts) {
             List<createRes> resList = new ArrayList<>();
             for (Post post : posts) {
@@ -52,7 +51,6 @@ public class PostDto {
             return resList;
         }
     }
-
     @Getter
     @Builder
     @NoArgsConstructor
