@@ -16,18 +16,8 @@ public class PostDto {
     @Setter
     public static class createReq {
 
-        @Schema(description = "게시물 내용", example = "This is a new post text", required = true)
-        private String text;
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class deleteReq {
-
-        @Schema(description = "삭제할 게시물 ID", example = "1", required = true)
-        private Long postId;
+        @Schema(description = "게시물 제목", example = "This is a new post text", required = true)
+        private String title;
     }
 
     @Getter
@@ -39,41 +29,19 @@ public class PostDto {
         @Schema(description = "게시물 ID", example = "1")
         private Long postId;
 
-        @Schema(description = "게시물 내용", example = "This is the post text.")
-        private String text;
+        @Schema(description = "게시물 제목", example = "This is the post text.")
+        private String title;
+
+        @Schema(description = "음성 파일 경로", example = "/uploads/audio.mp3")
+        private String audioFilePath;
 
         public static List<createRes> postList(List<Post> posts) {
             List<createRes> resList = new ArrayList<>();
             for (Post post : posts) {
-                createRes res = new createRes(post.getId(), post.getText());
+                createRes res = new createRes(post.getId(), post.getTitle(), post.getAudioFilePath());
                 resList.add(res);
             }
             return resList;
         }
-    }
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class updateReq {
-
-        @Schema(description = "수정할 게시물 ID", example = "1", required = true)
-        private Long postId;
-
-        @Schema(description = "수정할 게시물 내용", example = "Updated post text")
-        private String text;
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class showReq {
-
-        @Schema(description = "게시물 ID", example = "1", required = true)
-        private Long postId;
-
-        @Schema(description = "게시물 내용", example = "This is a show request text")
-        private String text;
     }
 }

@@ -28,7 +28,7 @@ public class UserService {
             List<Post> userPosts = postRepository.findByUserId(userId);
             for (Post post : userPosts) {
                 PostDto.createReq detail = new PostDto.createReq();
-                detail.setText(post.getText());
+                detail.setTitle(post.getTitle());
                 posts.add(detail);
             }
         }

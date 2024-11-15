@@ -23,7 +23,7 @@ public class UserController {
     @Operation(
             summary = "유저 정보 저장",
             description = """
-                새로운 유저 정보를 생성하고 저장합니다.
+                새로운 유저 정보를 생성하고 저장.
                 @param UserDto.createReq - 유저 이름 포함
                 @return 201 Created 상태의 ResponseEntity
                 @exception 유효성 검증 실패 시 400 Bad Request 반환
@@ -38,7 +38,7 @@ public class UserController {
     @Operation(
             summary = "유저 게시물 목록 조회",
             description = """
-                특정 유저가 작성한 게시물 목록을 조회합니다.
+                특정 유저가 작성한 게시물 목록을 조회.
                 @param userId - 게시물을 조회할 유저의 ID
                 @return 유저의 게시물 목록과 200 OK 상태 반환
                 @exception 유저 ID가 존재하지 않을 경우 404 Not Found 반환

@@ -21,15 +21,19 @@ public class Post {
     private Long id;
 
     @Setter
-    @Schema(description = "게시물 내용", example = "이것은 예시 게시물입니다.", required = true)
-    private String text;
+    @Schema(description = "게시물 제목", example = "예시 게시물.", required = true)
+    private String title;
+
+    @Setter
+    @Schema(description = "음성 파일 경로", example = "/uploads/audio.mp3", required = false)
+    private String audioFilePath;
 
     @ManyToOne
     @JoinColumn(name="user_id")
     @Schema(description = "게시물을 작성한 사용자", required = true)
     private User user;
 
-    public static Post toEntity(String text, User user) {
-        return new Post(null, text, user);
+    public static Post toEntity(String title, String audioFilePath, User user) {
+        return new Post(null, title, audioFilePath, user);
     }
 }
