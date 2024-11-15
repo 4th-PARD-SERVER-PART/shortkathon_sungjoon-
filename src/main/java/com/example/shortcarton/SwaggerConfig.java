@@ -20,8 +20,8 @@ public class SwaggerConfig {
 
     private Info apiInfo(){
         return new Info()
-                .title("Seminar ClBack")
-                .description("클백 MIC 스웨거")
+                .title("Seminar shortkaton")
+                .description("숏커톤 ")
                 .version("1.0.0");
     }
 }
