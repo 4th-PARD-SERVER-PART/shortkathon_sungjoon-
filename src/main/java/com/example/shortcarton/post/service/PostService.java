@@ -22,9 +22,21 @@ public class PostService {
         Post post=Post.toEntity(req.getText(),user);
         postRepository.save(post);
     }
-    public PostDto.createRes detailPost(Long postId) {
-        Optional<Post> posts = postRepository.findById(postId);
-        Post post = posts.get();
+    public PostDto.createRes detailPost(Long userId, Long postId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            throw new IllegalArgumentException("User not found");
+        }
+        User user = userOptional.get();
+        Optional<Post> postOptional = postRepository.findById(postId);
+        if (!postOptional.isPresent()) {
+            throw new IllegalArgumentException("Post not found");
+        }
+        Post post = postOptional.get();
+        if (!post.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Post does not belong to the user");
+        }
+
         return new PostDto.createRes(postId, post.getText());
     }
 

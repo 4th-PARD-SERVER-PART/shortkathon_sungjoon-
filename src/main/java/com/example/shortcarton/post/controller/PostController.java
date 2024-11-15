@@ -1,8 +1,6 @@
 package com.example.shortcarton.post.controller;
-
 import com.example.shortcarton.post.dto.PostDto;
 import com.example.shortcarton.post.service.PostService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +29,6 @@ public class PostController {
         postService.createPost(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
     @Operation(
             summary = "게시물 상세 조회",
             description = """
@@ -41,9 +38,10 @@ public class PostController {
                     @exception 게시물 ID가 존재하지 않을 경우 404 Not Found 반환
                     """
     )
-    @GetMapping("/detail/{postId}")
-    public ResponseEntity<PostDto.createRes> detailPost(@PathVariable Long postId) {
-        PostDto.createRes post = postService.detailPost(postId);
+
+    @GetMapping("/detail/{userId}/{postId}")
+    public ResponseEntity<PostDto.createRes> detailPost(@PathVariable Long userId, @PathVariable Long postId) {
+        PostDto.createRes post = postService.detailPost(userId, postId);
         return ResponseEntity.ok(post);
     }
     @Operation(
