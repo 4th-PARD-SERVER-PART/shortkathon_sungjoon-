@@ -21,19 +21,28 @@ public class PostService {
     private final PostRepository postRepository;
     private final String uploadDir = "C:/uploads/";  // 파일 업로드 디렉토리 설정
 
-    public void createPost(PostDto.createReq req, MultipartFile file) throws IOException {
+    public void createPost(String title, MultipartFile file) throws IOException {
         String audioFilePath = null;
 
+        // 음성 파일 처리
         if (file != null && !file.isEmpty()) {
             String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
             Path filePath = Paths.get(uploadDir + fileName);
             Files.createDirectories(filePath.getParent());
-            file.transferTo(filePath.toFile());
-            audioFilePath = "/uploads/" + fileName;
+            try {
+                file.transferTo(filePath.toFile());
+                audioFilePath = "/uploads/" + fileName;
+            } catch (IOException e) {
+                throw new IOException("File upload failed", e); // 파일 업로드 실패 시 예외 처리
+            }
         }
-        Post post = Post.toEntity(req.getTitle(), audioFilePath, null);  // user 없이 생성
+
+        // 게시물 생성
+        Post post = Post.toEntity(title, audioFilePath, null);  // user 없이 생성
         postRepository.save(post);
     }
+
+
 
     // 게시물 상세 조회 (userId 없이)
     public PostDto.createRes detailPost(Long postId) {

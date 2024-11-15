@@ -23,18 +23,16 @@ public class PostController {
             summary = "게시물 생성",
             description = """
                     새로운 게시물을 생성.
-                    @param request - 게시물 제목, 내용 등의 정보가 담긴 요청 본문
+                    @param title - 게시물 제목
                     @param file - 업로드할 음성 파일
                     @return 201 Created 상태의 ResponseEntity
                     """
     )
     @PostMapping("/create")
-    public ResponseEntity<Void> createPost(@RequestBody PostDto.createReq request,
+    public ResponseEntity<Void> createPost(@RequestParam String title,
                                            @RequestParam(required = false) MultipartFile file) throws IOException {
-            postService.createPost(request, file);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-
-
+        postService.createPost(title, file);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Operation(
