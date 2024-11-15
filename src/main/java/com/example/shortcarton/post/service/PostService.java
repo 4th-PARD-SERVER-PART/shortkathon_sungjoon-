@@ -31,7 +31,6 @@ public class PostService {
             file.transferTo(filePath.toFile());
             audioFilePath = "/uploads/" + fileName;
         }
-        // 게시물 생성
         Post post = Post.toEntity(req.getTitle(), audioFilePath, null);  // user 없이 생성
         postRepository.save(post);
     }
